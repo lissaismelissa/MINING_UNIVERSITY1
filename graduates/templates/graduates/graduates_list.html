@@ -1,0 +1,127 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% load graduates_tags %}
+
+{% block content %}
+<div class="row">
+    <!-- Форма фильтров -->
+    <div class="dropdown mb-2">
+        <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Фильтры
+        </button>
+
+        <form action="{% if request.GET.q %}{% url "graduates_list:search" %}{% else %}{% url "graduates_list:index" %}{% endif %}" method="get" class="dropdown-menu bg-dark" data-bs-theme="dark">
+            <p class="text-white mx-3 mt-3">Факультет</p>
+                <div class="form-check text-white mx-3">
+                    <input class="form-check-input" type="checkbox" name="facult" id="flexCheckDefault" value="on">
+                    {% if request.GET.q %}
+                        <input type="hidden" name="q" value="{{ request.GET.q }}">
+                    {% endif %}
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Институт базового инженерного образования
+                    </label>
+                </div>
+                <div class="form-check text-white mx-3">
+                    <input class="form-check-input" type="checkbox" name="facult" id="flexCheckDefault" value="on">
+                    {% comment %} <input type="hidden" name="q" value="request.GET.q"> {% endcomment %}
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Горный факультет
+                    </label>
+                </div>
+            <p class="text-white mx-3 mt-3">Сортировать:</p>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault1" value="default"
+                {% if not request.GET.order_by or request.GET.order_by == 'default' %} checked {%endif%}>
+                {% comment %} <input type="hidden" name="q" value="request.GET.q"> {% endcomment %}
+                <label class="form-check-label" for="flexRadioDefault1">
+                    По умолчанию
+                </label>
+            </div>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault2" value="average_score"
+                {% if request.GET.order_by == 'average_score' %} checked {%endif%}>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    От меньшего к большему
+                </label>
+            </div>
+            <div class="form-check text-white mx-3">
+                <input class="form-check-input" type="radio" name="order_by" id="flexRadioDefault3" value="-average_score"
+                {% if request.GET.order_by == '-average_score' %} checked {%endif%}>
+                <label class="form-check-label" for="flexRadioDefault3">
+                    От большего к меньшему
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary mx-3 mt-3">Применить</button>
+        </form>
+    </div>
+
+
+    {% for graduate in graduates %}
+        <!-- Карта товара -->
+        <div class="col-lg-4 col-md-6 p-4">
+            <div class="card border-primary rounded custom-shadow">
+                {% if graduate.image %}
+                    <img src="{{ graduate.image.url }}" class="card-img-top" alt="{{ graduate.name }}">
+                {% else %}
+                    <img src="{% static "deps/images/Not found image.jpg" %}" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <a href="{% url "graduates_list:graduate" graduate.slug %}">
+                        <p class="card-title">{{ graduate.name }}</p>
+                    </a>
+                    <p class="card-text text-truncate">{{ graduate.description }}</p>
+                    <p class="product_id">Факультет: {{ graduate.faculty }}</p>
+                    <p class="product_id">Балл диплома: {{ graduate.average_score }}</p>
+                    <p class="product_id">Год выпуска: {{ graduate.graduation_year }}</p>
+                    <p class="product_id">Место работы: {{ graduate.current_work_or_study_place }}</p>
+                    <div class="d-flex justify-content-between">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+
+</div>
+<!-- Пагинация -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center my-4">
+        <div class="custom-shadow d-flex">
+
+            <li class="page-item {% if not graduates.has_previous %} disabled {% endif %}">
+              <a class="page-link" href="{% if graduates.has_previous %}?{% change_params page=graduates.previous_page_number %}
+              {% else %}
+              #
+              {% endif %}">Назад</a>
+            </li>
+
+            {% for page in graduates.paginator.page_range %}
+            {% if page >= graduates.number|add:-2 and page <= graduates.number|add:2 %}
+                <li class="page-item {% if graduates.number == page %} active {% endif %}">
+                    <a class="page-link" href="?{% change_params page=page %}">{{ page }}</a>
+                </li>
+            {% endif %}
+            {% endfor %}
+
+
+            <li class="page-item {% if not graduates.has_next %} disabled {% endif %}">
+                <a class="page-link" href=" {% if graduates.has_next %}?{% change_params page=graduates.next_page_number %}
+                {% else %}
+                #
+                {% endif %}">Следущая</a>
+              </li>
+        </div>
+    </ul>
+</nav>
+{% endblock content %}
+
+{% block footer %}
+<footer class="py-4 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; Home Python Hub Studio 2023</p>
+    </div>
+</footer>
+{% endblock footer %}

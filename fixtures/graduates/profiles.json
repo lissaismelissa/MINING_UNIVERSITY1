@@ -1,0 +1,1 @@
+[{"model": "graduates.profiles", "pk": 1, "fields": {"name": "09.03.02 Информационные системы и технологии", "faculty": 3, "direction": 2}}, {"model": "graduates.profiles", "pk": 2, "fields": {"name": "09.03.01 Автоматизированные системы обработки информации и управления", "faculty": 3, "direction": 1}}]

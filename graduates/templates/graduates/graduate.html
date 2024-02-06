@@ -1,0 +1,43 @@
+{% extends "main/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card mb-4 custom-shadow">
+        <div class="row">
+            <!-- Миниатюры -->
+            <div class="col-md-4">
+                <img src="{{ graduate.image.url }}"
+                    class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
+            </div>
+            <div class="col-md-4 ">
+            </div>
+            <!-- Увеличить изображение в модальном окне -->
+            <div class="modal fade" id="imageModal1" tabindex="-1"
+                aria-labelledby="imageModal1Label" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageModal1Label">{{ graduate.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{ graduate.image.url }}"
+                                class="img-fluid" alt="Изображение 1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Описание выпускника -->
+        <div class="card-body">
+            <h5 class="card-title">{{ graduate.name }}</h5>
+            <p class="card-text"><strong>Место работы: </strong> {{graduate.current_work_or_study_place }} </p>
+            <p class="card-text"><strong>Направление подготовки: </strong> {{graduate.profile }}</p>
+            <p class="card-text"><strong> Средний балл диплома: </strong> {{graduate.average_score }}</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+

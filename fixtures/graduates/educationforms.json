@@ -1,0 +1,1 @@
+[{"model": "graduates.educationforms", "pk": 1, "fields": {"name": "очное обучение"}}, {"model": "graduates.educationforms", "pk": 2, "fields": {"name": "заочное обучение"}}, {"model": "graduates.educationforms", "pk": 3, "fields": {"name": "очно-заочное обучение"}}]
