@@ -1,0 +1,30 @@
+[
+    {
+        "model": "graduates.qualifications",
+        "pk": 1,
+        "fields": {
+            "name": "бакалавр"
+        }
+    },
+    {
+        "model": "graduates.qualifications",
+        "pk": 2,
+        "fields": {
+            "name": "специалист"
+        }
+    },
+    {
+        "model": "graduates.qualifications",
+        "pk": 3,
+        "fields": {
+            "name": "магистр"
+        }
+    },
+    {
+        "model": "graduates.qualifications",
+        "pk": 4,
+        "fields": {
+            "name": "аспирант"
+        }
+    }
+]

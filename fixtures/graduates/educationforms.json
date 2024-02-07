@@ -1,1 +1,23 @@
-[{"model": "graduates.educationforms", "pk": 1, "fields": {"name": "очное обучение"}}, {"model": "graduates.educationforms", "pk": 2, "fields": {"name": "заочное обучение"}}, {"model": "graduates.educationforms", "pk": 3, "fields": {"name": "очно-заочное обучение"}}]
+[
+    {
+        "model": "graduates.educationforms",
+        "pk": 1,
+        "fields": {
+            "name": "РѕС‡РЅРѕРµ РѕР±СѓС‡РµРЅРёРµ"
+        }
+    },
+    {
+        "model": "graduates.educationforms",
+        "pk": 2,
+        "fields": {
+            "name": "Р·Р°РѕС‡РЅРѕРµ РѕР±СѓС‡РµРЅРёРµ"
+        }
+    },
+    {
+        "model": "graduates.educationforms",
+        "pk": 3,
+        "fields": {
+            "name": "РѕС‡РЅРѕ-Р·Р°РѕС‡РЅРѕРµ РѕР±СѓС‡РµРЅРёРµ"
+        }
+    }
+]

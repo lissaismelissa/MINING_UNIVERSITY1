@@ -1,1 +1,18 @@
-[{"model": "graduates.qualifications", "pk": 1, "fields": {"name": "бакалавр"}}, {"model": "graduates.qualifications", "pk": 2, "fields": {"name": "специалитет"}}, {"model": "graduates.qualifications", "pk": 3, "fields": {"name": "магистр"}}, {"model": "graduates.qualifications", "pk": 4, "fields": {"name": "аспирант"}}]
+[
+    {
+        "model": "graduates.directions",
+        "pk": 1,
+        "fields": {
+            "name": "09.03.02 РРЅС„РѕСЂРјР°С†РёРѕРЅРЅС‹Рµ СЃРёСЃС‚РµРјС‹ Рё С‚РµС…РЅРѕР»РѕРіРёРё",
+            "faculty": 3
+        }
+    },
+    {
+        "model": "graduates.directions",
+        "pk": 2,
+        "fields": {
+            "name": "09.03.01 РРЅС„РѕСЂРјР°С‚РёРєР° Рё РІС‹С‡РёСЃР»РёС‚РµР»СЊРЅР°СЏ С‚РµС…РЅРёРєР°",
+            "faculty": 3
+        }
+    }
+]

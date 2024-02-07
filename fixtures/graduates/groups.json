@@ -1,1 +1,42 @@
-[{"model": "graduates.groups", "pk": 1, "fields": {"name": "»¿—-20", "faculty": 3, "direction": 1, "profile": 2}}, {"model": "graduates.groups", "pk": 2, "fields": {"name": "»—“-20", "faculty": 3, "direction": 2, "profile": 1}}, {"model": "graduates.groups", "pk": 3, "fields": {"name": "»¿—-19", "faculty": 3, "direction": 1, "profile": 2}}, {"model": "graduates.groups", "pk": 4, "fields": {"name": "»—“-19", "faculty": 3, "direction": 2, "profile": 1}}]
+[
+    {
+        "model": "graduates.groups",
+        "pk": 1,
+        "fields": {
+            "name": "–ò–ê–°-20",
+            "faculty": 3,
+            "direction": 1,
+            "profile": 2
+        }
+    },
+    {
+        "model": "graduates.groups",
+        "pk": 2,
+        "fields": {
+            "name": "–ò–°–¢-20",
+            "faculty": 3,
+            "direction": 2,
+            "profile": 1
+        }
+    },
+    {
+        "model": "graduates.groups",
+        "pk": 3,
+        "fields": {
+            "name": "–ò–ê–°-19",
+            "faculty": 3,
+            "direction": 1,
+            "profile": 2
+        }
+    },
+    {
+        "model": "graduates.groups",
+        "pk": 4,
+        "fields": {
+            "name": "–ò–°–¢-19",
+            "faculty": 3,
+            "direction": 2,
+            "profile": 1
+        }
+    }
+]

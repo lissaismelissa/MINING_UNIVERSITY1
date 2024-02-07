@@ -1,1 +1,23 @@
-[{"model": "graduates.faculties", "pk": 1, "fields": {"name": "Геологоразведочный факультет"}}, {"model": "graduates.faculties", "pk": 2, "fields": {"name": "Горный факультет"}}, {"model": "graduates.faculties", "pk": 3, "fields": {"name": "Институт базового инженерного образования"}}]
+[
+    {
+        "model": "graduates.faculties",
+        "pk": 1,
+        "fields": {
+            "name": "Р“РµРѕР»РѕРіРѕСЂР°Р·РІРµРґРѕС‡РЅС‹Р№ С„Р°РєСѓР»СЊС‚РµС‚"
+        }
+    },
+    {
+        "model": "graduates.faculties",
+        "pk": 2,
+        "fields": {
+            "name": "Р“РѕСЂРЅС‹Р№ С„Р°РєСѓР»СЊС‚РµС‚"
+        }
+    },
+    {
+        "model": "graduates.faculties",
+        "pk": 3,
+        "fields": {
+            "name": "РРЅСЃС‚РёС‚СѓС‚ Р±Р°Р·РѕРІРѕРіРѕ РёРЅР¶РµРЅРµСЂРЅРѕРіРѕ РѕР±СЂР°Р·РѕРІР°РЅРёСЏ"
+        }
+    }
+]
