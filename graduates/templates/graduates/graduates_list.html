@@ -1,4 +1,4 @@
-{% extends "main/base.html" %}
+{% extends "base.html" %}
 {% load static %}
 {% load graduates_tags %}
 
@@ -56,7 +56,13 @@
         </form>
     </div>
 
-
+    {% if request.GET.q %}
+    <h3 class="mt-4">Результаты поиска по запросу {{ request.GET.q }}</h3>
+    {% if not graduates %}
+        <link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
+        <h2 class="mt-4">По запросу ничего не найдено</h2>
+    {% endif %}
+    {% endif %}
     {% for graduate in graduates %}
         <!-- Карта товара -->
         <div class="col-lg-4 col-md-6 p-4">
@@ -87,6 +93,7 @@
 
 </div>
 <!-- Пагинация -->
+{% if graduates %}
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center my-4">
         <div class="custom-shadow d-flex">
@@ -116,6 +123,7 @@
         </div>
     </ul>
 </nav>
+{% endif %}
 {% endblock content %}
 
 {% block footer %}
