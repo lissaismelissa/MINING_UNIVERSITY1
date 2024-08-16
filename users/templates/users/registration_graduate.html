@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_teacher or user.is_staff %}
+<div class="content_users">
+    <div class="form">
+    <div style="text-align: center;">
+        <a class="text-content-h4" style="color: var(--green-color);">Регистрация</a>
+    </div>
+        <form action="{% url "user:registration_graduate" %}" method="post">
+            {% csrf_token %}
+            <div>
+                <label for="id_last_name" class="form-label">Фамилия*</label>
+                <input type="text" class="form-control" id="id_last_name"
+                    value="{% if form.last_name.value %}{{ form.last_name.value }}{% endif %}"
+                    name = "last_name"
+                    placeholder="Введите фамилию выпускника" required>
+                    {% if form.last_name.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.last_name.errors }}</div>
+                    {% endif %}
+            </div>
+            <div>
+                <label for="id_first_name" class="form-label">Имя*</label>
+                <input type="text" class="form-control" id="id_first_name"
+                    value="{% if form.first_name.value %}{{ form.first_name.value }}{% endif %}"
+                    name = "first_name" 
+                    placeholder="Введите имя выпускника" required>
+                    {% if form.first_name.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.first_name.errors }}</div>
+                    {% endif %}
+            </div>
+            <div>
+                <label for="id_middle_name" class="form-label">Отчество*</label>
+                <input type="text" class="form-control" id="id_middle_name"
+                    value="{% if form.middle_name.value %}{{ form.middle_name.value }}{% endif %}"
+                    name = "middle_name"
+                    placeholder="Введите отчество выпускника">
+            </div>
+            <div>
+                <label for="id_username" class="form-label">Имя пользователя*</label>
+                <input type="text" class="form-control" id="id_username"
+                    value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                    name = "username"
+                    placeholder="Введите имя пользователя выпускника" required>
+                    {% if form.username.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.username.errors }}</div>
+                    {% endif %}
+            </div>
+            <div>
+                <label for="id_slug" class="form-label">URL выпусника*</label>
+                <input type="text" class="form-control" id="id_slug"
+                    value="{% if form.slug.value %}{{ form.slug.value }}{% endif %}"
+                    name = "slug"
+                    placeholder="Введите URL выпускника" required>
+            </div>
+            <div>
+                <label for="id_email" class="form-label">Email*</label>
+                <input type="email" class="form-control" id="id_email"
+                    value="{% if form.email.value %}{{ form.email.value }}{% endif %}"
+                    name = "email"
+                    placeholder="Введите email выпусника" required>
+                    {% if form.email.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+                    {% endif %}
+            </div>
+            {% comment %} <div>
+                <label for="id_faculty" class="form-label">Факультет*</label>
+                <select name="faculty" class="form-control" required id="id_faculty">
+                <option value="" selected>Факультет</option>
+                {% for faculty in faculties %}
+                <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            {% comment %} <div>
+                <label for="id_direction" class="form-label">Направление*</label>
+                <select name="direction" class="form-control" required id="id_direction">
+                <option value="" selected>Направление</option>
+                {% for direction in directions %}
+                <option value="{{ direction.id }}">{{ direction.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            {% comment %} <div>
+                <label for="id_profile" class="form-label">Профиль*</label>
+                <select name="profile" class="form-control" required id="id_direction">
+                <option value="" selected>Профиль</option>
+                {% for profile in profiles %}
+                <option value="{{ profile.id }}">{{ profile.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            <div>
+                <label for="id_group" class="form-label">Группа*</label>
+                <select name="group" class="form-control" required id="id_group">
+                <option value="" selected>Группа</option>
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+                </select>
+            </div>
+            {% comment %} <div>
+                <label for="id_qualification" class="form-label">Квалификация*</label>
+                <select name="qualification" class="form-control" required id="id_diqualification">
+                <option value="" selected>Квалификация</option>
+                {% for qualification in qualifications %}
+                <option value="{{ qualification.id }}">{{ qualification.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            {% comment %} <div>
+                <label for="id_edication_form" class="form-label">Форма обучения*</label>
+                <select name="edication_form" class="form-control" required id="id_edication_form">
+                <option value="" selected>Форма обучения</option>
+                {% for edication_form in edication_forms %}
+                <option value="{{ edication_form.id }}">{{ edication_form.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            {% comment %} <div>
+                <label for="id_department" class="form-label">Кафедра*</label>
+                <select name="department" class="form-control" required id="id_department">
+                <option value="" selected>Кафедра</option>
+                {% for department in departments %}
+                <option value="{{ department.id }}">{{ department.name }}</option>
+                {% endfor %}
+                </select>
+            </div> {% endcomment %}
+            <div>
+                <label for="id_graduation_year" class="form-label">Год выпуска*</label>
+                <input type="text" class="form-control" id="id_graduation_year"
+                    value="{% if form.graduation_year.value %}{{ form.graduation_year.value }}{% endif %}"
+                    name = "graduation_year"
+                    placeholder="Введите ваш год выпуска" required>
+            </div>
+            <div>
+                <label for="id_average_score" class="form-label">Средний балл диплома*</label>
+                <input type="text" class="form-control" id="id_average_score"
+                    value="{% if form.average_score.value %}{{ form.average_score.value }}{% endif %}"
+                    name = "average_score"
+                    placeholder="Введите средний балл вашего диплома" required>
+            </div>
+            <div>
+                <label for="id_password1" class="form-label">Пароль*</label>
+                <input type="password" class="form-control" id="id_password1"
+                    value="{% if form.password1.value %}{{ form.password1.value }}{% endif %}"
+                    name = "password1"
+                    placeholder="Введите пароль" required>
+                    {% if form.password1.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.password1.errors }}</div>
+                    {% endif %}
+            </div>
+            <div>
+                <label for="id_password2" class="form-label">Подтверждение пароля*</label>
+                <input type="password" class="form-control" id="id_password2"
+                    value="{% if form.password2.value %}{{ form.password2.value }}{% endif %}"
+                    name = "password2"
+                    placeholder="Подтвердите пароль" required>
+                    {% if form.password2.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show">{{ form.password2.errors }}</div>
+                    {% endif %}
+            </div>
+            <div>
+                <input type="hidden" class="form-control" id="id_is_graduate"
+                    value="True"
+                    name = "is_graduate"
+                    placeholder="Студент?" required>
+            </div>
+            <div style="margin: 12px; text-align: center;">
+                <button type="submit" class="button">Зарегистрировать выпускника</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock content %}

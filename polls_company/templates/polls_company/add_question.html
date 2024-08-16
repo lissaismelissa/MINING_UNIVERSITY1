@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+ 
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_teacher %}
+<div class="content_users">
+    <div class="form">
+        <div style="text-align: center;">
+            <a class="text-content-h4" style="color: var(--green-color);">Добавить новый вопрос</a>
+        </div> 
+            <form action="{% url 'polls_company:save_question' %}" method="post">
+                
+            {% csrf_token %}
+            <div >
+                <p><label for="id_question">Введите текст вопроса:</label></p>
+                <p><textarea class="form-control" style="height: 200px;" name="question" cols="50" rows="3" required id="id_question"></textarea></p>
+                <p><label for="id_choice">Введите варианты ответа:</label></p>
+                <p>1. <textarea class="form-control" name="choice1" cols="50" rows="1" required id="id_choice1"></textarea></p>
+                <p>2. <textarea class="form-control" name="choice2" cols="50" rows="1" id="id_choice2"></textarea></p>
+                <p>3. <textarea class="form-control" name="choice3" cols="50" rows="1" id="id_choice3"></textarea></p>
+                <p>4. <textarea class="form-control" name="choice4" cols="50" rows="1" id="id_choice4"></textarea></p>
+                <p>5. <textarea class="form-control" name="choice5" cols="50" rows="1" id="id_choice5"></textarea></p>
+                <p>6. <textarea class="form-control" name="choice6" cols="50" rows="1" id="id_choice6"></textarea></p>
+                <p>7. <textarea class="form-control" name="choice7" cols="50" rows="1" id="id_choice7"></textarea></p>
+                <p>8. <textarea class="form-control" name="choice8" cols="50" rows="1" id="id_choice8"></textarea></p>
+                <p>9. <textarea class="form-control" name="choice9" cols="50" rows="1" id="id_choice9"></textarea></p>
+                <p>10. <textarea class="form-control" name="choice10" cols="50" rows="1" id="id_choice10"></textarea></p>
+            </div>
+            <div style="margin: 12px; text-align: center;">
+                <input type="submit" value="Добавить вопрос" class="button">
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% else %}
+<h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock %}

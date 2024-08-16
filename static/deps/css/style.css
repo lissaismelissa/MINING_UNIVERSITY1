@@ -1,0 +1,536 @@
+html {
+    box-sizing: border-box;
+}
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
+body {
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    font-weight: 400;
+}
+.container {
+    max-width: 1480px;
+    max-height: 120px;
+    background-color: var(--orange-color);
+    margin: 0 auto;
+}
+
+.block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:root {
+    --orange-color: #FF902A;
+    --green-color: #1A8238;
+    --grey-color: #D9D9D9;
+    --white-color: #fff;
+}
+
+.text-header-h4 {
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: var(--white-color);
+    padding-left: 20px;
+    padding-right: 20px;
+    text-decoration: none;
+}
+
+.text-header-h5 {
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--white-color);
+    padding-left: 15px;
+    padding-right: 15px;
+    text-decoration: none;
+}
+
+.text-p {
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--green-color);
+    text-decoration: none;
+    margin: 0;
+}
+
+.text-p-green {
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: rgb(15, 101, 15);
+    text-decoration: none;
+    margin: 0;
+}
+
+.header {
+    margin-bottom: 50px;
+    min-height: 120px;
+    min-width: 1480px;
+    
+}
+.header__title {
+    padding-left: 100px;
+    padding-right: 100px;
+    height: 120px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+.logo {
+    width: 70px;
+    height: 82px;
+}
+.h4 {
+}
+
+.a {
+}
+
+.button {
+    background-color: var(--green-color);
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    height: 45px;
+    min-width: 80px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button:hover {
+        background: green;
+   }
+
+.button_red {
+    background-color: rgb(163, 32, 32);
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    height: 45px;
+    min-width: 80px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button_red:hover {
+        background: red;
+   }
+
+.map {
+    width: 1282px;
+    height: 583px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.content {
+    margin: 0 auto;
+    width: 1282px;
+}
+
+.main_page_img {
+    width: 620px;
+}
+
+.text-content-h4 {
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    color: var(--black-color);
+    text-align: justify;
+    text-decoration: none;
+}
+.text-content-h4-green{
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    color: rgb(15, 101, 15);
+    text-align: justify;
+    text-decoration: none;
+}
+
+.text-content-h5 {
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    color: var(--black-color);
+    text-align: justify;
+    text-decoration: none;
+}
+
+.right {
+    margin-left: 50px;
+}
+
+.left {
+    margin-right: 50px;
+}
+
+.bottom {
+    margin-bottom: 50px;
+}
+
+.top {
+    margin-top: 50px;
+}
+
+.main_page_block {
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.footer {
+    margin-top: 50px;
+    min-width: 1480px;
+    bottom: 0;
+}
+
+.text-footer {
+    margin: 0;
+    font-family: "Oswald", sans-serif;
+    font-size: 20px;
+    color: var(--white-color);
+    text-decoration: none;
+}
+
+.footer__title {
+    height: 60px;
+    padding-left: 100px;
+    padding-right: 100px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+/* Кнопка выпадающего списка */
+.dropbtn {
+    background-color: var(--orange-color);
+    padding: 16px;
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+    height: 45px;
+    width: 120px;
+
+  }
+  
+  /* Контейнер <div> - необходим для размещения выпадающего содержимого */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Выпадающее содержимое (скрыто по умолчанию) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+  
+  /* Ссылки внутри выпадающего списка */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  /* Изменение цвета выпадающих ссылок при наведении курсора */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Показать выпадающее меню при наведении курсора */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+  /* Изменение цвета фона кнопки раскрывающегося списка при отображении содержимого раскрывающегося списка */
+  .dropdown:hover .dropbtn {background-color: var(--green-color);
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);}
+
+.content_users {
+    margin: 0 auto;
+    width: 1282px;
+}
+
+.form {
+    width: 600px;
+    height: auto;
+    margin: 0 auto;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    padding: 14px 69px 14px 69px;
+    }
+
+.form-list {
+    width: 600px;
+    height: auto;
+    margin: 0 auto;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    padding: 14px 69px 14px 69px;
+    }
+
+
+.form-label {
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    color: var(--green-color);
+    text-align: left;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.form-control {
+    width: 462px;
+    height: 50px;
+    max-width: 750px;
+    max-height: 100px;
+    border-radius: 5px;
+    border: none;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    color: var(--green-color);
+}
+
+input[type="password" i] {
+    -webkit-text-security: disc !important;
+    writing-mode: horizontal-tb !important;
+    padding-block: 1px;
+    padding-inline: 2px;
+    width: 462px;
+    height: 50px;
+    max-width: 750px;
+    max-height: 100px;
+    border-radius: 5px;
+    border: none;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    color: var(--green-color);
+}
+
+input[type="email" i] {
+    writing-mode: horizontal-tb !important;
+    width: 462px;
+    height: 50px;
+    max-width: 750px;
+    max-height: 100px;
+    border-radius: 5px;
+    border: none;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    color: var(--green-color);
+}
+
+.form-control-filter {
+    width: 240px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    font-family: "Oswald", sans-serif;
+    font-weight: 500;
+    color: var(--green-color);
+}
+
+.form-polls {
+    width: 750px;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    padding: 14px 20px 14px 20px;
+    }
+
+
+
+.form-filter {
+    width: 280px;
+    height: auto;
+    margin-right: 30px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    padding: 14px 20px 14px 20px;
+    }
+
+.user-img {
+    border-radius: 5px;
+}
+
+.grad-img {
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+}
+
+
+.photo {
+    width: 250px;
+    height: 250px;
+}
+
+.profile {
+    display: flex;
+    align-items: start;
+    margin: 0 auto;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    font-family: "Oswald", sans-serif;
+    border: none;
+    background: var(--green-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+  }
+  
+  input[type=file]::file-selector-button:hover {
+    background: green;
+  }
+
+/* Pagination links */
+.pagination {
+    justify-content: center;
+    display: flex;
+  }
+
+.pagination a {
+    width: auto;
+    text-align: center;
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border-radius: 5px;
+  }
+  
+  /* Style the active/current link */
+  .pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  /* Add a grey background color on mouse-over */
+  .pagination a:hover:not(.active) {background-color: #ddd; border-radius: 5px;}
+
+.search-form {
+    background-color: var(--white-color);
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--green-color);
+    border: none;
+    border-radius: 5px;
+    height: 45px;
+    width: 662px;
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+    text-decoration: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+}
+
+.search {
+    text-align: left;
+    padding-bottom: 20px;
+}
+
+.img-circle {
+    border-radius: 50%;
+}
+
+.form-comment {
+    width: 750px;
+    height: auto;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 5px;
+    padding: 10px;
+    }
+
+.imageWrapper {
+  position: relative;
+  width: 1282px;
+  height: 583px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: #1A8238;
+}
+
+.overlayImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1282px;
+  height: 583px;
+}
+
+.hidden {
+    display: none;
+  }
+
+.show {
+  display: inLine !important;
+}
+
+.button-for-teach {
+    background-color: var(--green-color);
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button-for-teach:hover {
+        background: green;
+   }
+
+.button-for-teach-red {
+    background-color: rgb(173, 21, 21);
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    color: var(--white-color);
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    box-shadow: 0 2px 5px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    .button-for-teach-red:hover {
+        background: rgb(140, 19, 19);
+   }

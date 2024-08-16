@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% load static %}
+{% load graduates_tags %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% else %}
+<div class="content_users" style="display: flex; justify-content: right;">
+    <div>
+    <!-- Форма поиска -->
+        <div>
+            <form class="search" style="text-align: center;" role="search" action="{% url "graduates_list:companies_list_search" %}" method="get">
+                <input class="search-form" type="search" name="q" placeholder="Название компании, адрес..." aria-label="Search">
+                <button class="button" type="submit">Поиск</button>
+            </form>
+        </div>
+        
+        {% if request.GET.q %}
+            <div style="text-align: center;">
+            {% if not companies %}
+                <link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
+                <p class="text-p"> По запросу "{{ request.GET.q }}" ничего не найдено</p>
+            {% else %}
+                <p class="text-p"> Результаты поиска по запросу "{{ request.GET.q }}":</h4>
+            {% endif %}
+            </div>
+        {% endif %}
+            
+        {% for company in companies %}
+        <div class="form-polls">
+            <div class="profile">
+                {% if company.image %}
+                    <img src="{{ company.image.url }}" alt="{{ company.name }}" class="user-img"
+                    style="max-width: 150px; margin-right: 30px;">
+                {% else %}
+                    <img src="{% static "deps/images/Not found image.png" %}" class="user-img" alt="{{ company.name }}"
+                    style="max-width: 150px; margin-right: 30px;">
+                {% endif %}
+                <div>
+                    <p style="margin: 0; font-size: 20px;">{{ company.name }}</p>
+                    <p class="text-p">{{ company.description|default_if_none:"" }}</p>
+                    <p class="text-p"> Адрес: {{ company.address }}</p>
+                    <p class="text-p"> В этой компании работают: 
+                        {% for graduate in graduates %}
+                            {% if graduate.company == company %}
+                            <a style="margin: 0; font-size: 15px; text-decoration: underline; color: green;" href="{% url "graduates_list:graduate" graduate.slug %}">{{ graduate.last_name }} {{ graduate.first_name }} </a>
+                            {% endif %}
+                        {% endfor %}
+                    </p>
+                    {% if user.is_teacher %}
+                    <div class="button-for-teach" style="margin-top: 10px; width: 320px;">
+                        <a class="a text-header-h5" href="{% url "feedback:company" company.id %}">Редактировать профиль компании</a>
+                    </div>
+                    {% endif %}
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-filter" style="margin-left: 30px; height: 355px;">
+        <p class="form-label" >Хотите добавить описание к компании<br>или нашли ошибку в данных?<br>Отправьте запрос на изменение:</p>
+        <form action="{% url "feedback:feedbackcompany_view" %}" method="POST">
+            {% csrf_token %}
+            <div style="margin-bottom: 20px;">
+                <select name="company" class="form-control-filter" required>
+                    {% for company in comp %}
+                        <option value="{{ company.id }}">{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <textarea name="description" type="text" class="form-control-filter" style="margin-bottom: 10px; width: 250px; height: 100px;" placeholder="Описание компании..."></textarea>
+            </div>
+            <div>
+                <input hidden name="email" type="text" class="form-control-filter" style="margin-bottom: 20px;" placeholder="Ваш email:" value="{{ user.email }}">
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="button" style="margin-bottom: 20px; justify-content: center;">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Пагинация -->
+{% if companies %}
+    <div class="pagination">    
+        <div class="{% if not companies.has_previous %} disabled {% endif %}">
+            <a href="{% if companies.has_previous %}?{% change_params page=companies.previous_page_number %}
+            {% else %}
+            #
+            {% endif %}">Назад</a>
+        </div>
+
+        {% for page in companies.paginator.page_range %}
+        {% if page >= companies.number|add:-2 and page <= companies.number|add:2 %}
+            <div class="{% if companies.number == page %} active {% endif %}">
+                <a class="page-link" href="?{% change_params page=page %}">{{ page }}</a>
+            </div>
+        {% endif %}
+        {% endfor %}
+
+
+        <div class="{% if not companies.has_next %} disabled {% endif %}">
+            <a href="{% if companies.has_next %}?{% change_params page=companies.next_page_number %}
+            {% else %}
+            #
+            {% endif %}">Следущая</a>
+        </div>
+</div>
+{% endif %}
+{% endif %}
+{% endblock content %}
+
+{% block footer %}
+{% if user.is_authenticated %}
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__title">
+                <h4 class="text-footer">Copyright &copy; Blagopoluchnaya Elizaveta IAS-20 2024</h4>
+            </div>
+        </div>
+    </footer>
+{% endif %}
+{% endblock footer %}

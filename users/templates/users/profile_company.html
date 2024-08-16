@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form" style="width: 894px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a class="text-content-h4" style="color: var(--green-color);">Профиль пользователя</a>
+    </div>
+        <form action="{% url "user:profile_company" %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile">
+                <div style="width: 250px; height: 300px; margin: 10px;">
+                    {% if user_company.image %}
+                    <img src="{{ user_company.image.url }}"
+                        alt="Аватар пользователя" class="user-img" style="width: 250px;">
+                    {% else %}
+                    <img src="{% static "deps/images/Not found image.png" %}"
+                        alt="Аватар пользователя" class="user-img" style="width: 250px;">
+                    {% endif %}
+                    <div>
+                        <label class="input-file">
+                            <input type="file" id="id_image"
+                                name="image"
+                                accept="image/*">
+                                {% if form.image.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{ form.image.errors }}</div>
+                                {% endif %}
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <label for="id_first_name" class="form-label">Имя*</label>
+                        <input type="first_name" class="form-control" id="id_first_name"
+                            name="first_name"
+                            placeholder="Введите ваше имя:"
+                            value="{{ form.first_name.value }}"
+                            required>
+                            {% if form.first_name.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+                            {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_last_name" class="form-label">Фамилия*</label>
+                        <input type="text" class="form-control" id="id_last_name"
+                            name="last_name"
+                            placeholder="Введите вашу фамилию"
+                            value="{{ form.last_name.value }}" 
+                            required>
+                            {% if form.last_name.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_middle_name" class="form-label">Отчество*</label>
+                        <input type="text" class="form-control" id="id_middle_name"
+                            name="middle_name"
+                            placeholder="Введите ваше отчество"
+                            value="{{ form.middle_name.value|default_if_none:"" }}">
+                    </div>
+                    <div>
+                        <label for="id_username" class="form-label">Имя пользователя*</label>
+                        <input type="text" class="form-control" id="id_username"
+                            name="username"
+                            placeholder="Введите ваше имя пользователя"
+                            value="{{ form.username.value }}"
+                            required>
+                            {% if form.username.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{ form.username.errors }}</div>
+                            {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_email" class="form-label">Email*</label>
+                        <input type="email" class="form-control" id="id_email"
+                            name="email"
+                            placeholder="Введите ваш email *youremail@example.com"
+                            value="{{ form.email.value }}"
+                            required>
+                            {% if form.email.errors %}
+                                <div class="alert alert-danger alert-dismissible fade show">{{ form.email.errors }}</div>
+                            {% endif %}
+                    </div>
+                    <div>
+                        <label for="id_company" class="form-label">Место работы*</label>
+                        <select name="company" class="form-control" id="id_company">
+                            <option value="{{ user_company.company.id }}" selected>{{ user_company.company|default_if_none:""  }}, {{ user_company.company.address|default_if_none:""  }}</option>
+                        {% for company in companies %}
+                        {% if not user_company.company == company.name %}
+                        <option value="{{ company.id }}">{{ company.name|default_if_none:""  }}, {{ company.address|default_if_none:""  }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_comp" class="form-label">Добавьте компанию, если не нашли её в списке.<br>Введите название компании:</label>
+                        <input type="text" id="name" class="form-control" name="name">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <input name="is_russia" type="radio" value="True" checked>
+                <label class="form-label">
+                    Российская компания
+                </label>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <input name="is_russia" type="radio" value="False">
+                <label class="form-label">
+                    Зарубежная компания
+                </label>
+            </div><div>
+                        <input type="text" name="address" id="address" class="snp-form-input" hidden>
+                        <input type="text" name="coords" id="coords" class="snp-form-input" hidden>
+                        <label for="id_company" class="form-label">Введите адрес места работы*</label>
+                    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                    <script src="https://api-maps.yandex.ru/2.1/?apikey=735fbe75-736b-401c-8e10-97dd58da45cf&lang=ru_RU" type="text/javascript">
+                    </script>
+                    <script type="text/javascript">
+                        ymaps.ready(init);
+                        var center = [ 65.25, 94.15]
+                        function init(){
+                            var myMap = new ymaps.Map("map", {
+                                center: center, 
+                                zoom: 2,
+                                controls: ['fullscreenControl', 'typeSelector']
+                                        }, {
+                                        searchControlProvider: 'yandex#search'
+                                    });
+                                    var searchControl = new ymaps.control.SearchControl();
+                                    myMap.controls.add(searchControl);
+                                    searchControl.events.add('resultselect', function (e) {
+                                                var results = searchControl.getResultsArray();
+                                                // Индекс выбранного объекта.
+                                                var selected = e.get('index');
+                                                // Получает координаты выбранного объекта.
+                                                var coords = results[selected].geometry.getCoordinates();
+                                                $('#coords').val(coords);
+                                                ymaps.geocode(coords).then(function(res) {
+                                                    var data = res.geoObjects.get(0).properties.getAll();
+                                                    $('#address').val(data.text);
+                                                });
+                                                });
+                        }
+                    </script>
+                    <div id="map" style="width: auto; height: 400px; margin-bottom: 20px;"></div>
+                </div>
+                <div>
+                    <label for="id_post" class="form-label">Должность*</label>
+                    <input type="text" class="form-control" id="id_post" style="width: 750px;"
+                        name="post"
+                        placeholder="Введите вашу должность"
+                        value="{{ form.post.value|default_if_none:""  }}"
+                        >
+                </div>
+            <div style="margin: 22px; text-align: center;">
+                <button type="submit" class="button">Сохранить</button>
+            </div> 
+        </form>
+        <form action="get"></form>
+</div>
+{% endblock content %}

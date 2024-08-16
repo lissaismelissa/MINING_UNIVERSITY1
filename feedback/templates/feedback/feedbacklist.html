@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+{% load graduates_tags %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% else %}   
+        {% for l in list_graduate %}
+        <div class="form-polls" style="text-align: center;">
+                <div>
+                    <p style="margin: 0; font-size: 20px;">Пользователь с почтой: {{ l.email }}</p>
+                    <p class="text-p">Оставил сообщение: {{ l.description }}</p>
+                    <p class="text-p">Карточка выпускника: {{ l.graduate }}</p>
+                    <div class="button-for-teach" style="margin-top: 10px;">
+                        <a class="a text-header-h5" href="{% url "feedback:graduate" l.graduate.slug %}">Перейти к карточке выпускника</a>
+                    </div>
+                    <div class="button-for-teach-red" style="margin-top: 10px;">
+                        <a class="a text-header-h5" href="{% url "feedback:feedbackdeletegraduate" l.id %}" method="get">Удалить сообщение</a>
+                    </div>
+                </div>
+
+        </div>
+        {% endfor %}
+        {% for l in list_company %}
+        <div class="form-polls" style="text-align: center;">
+                <div>
+                    <p style="margin: 0; font-size: 20px; text-align: center;">Пользователь с почтой: {{ l.email }}</p>
+                    <p class="text-p">Оставил сообщение: {{ l.description }}</p>
+                    <p class="text-p">Карточка компании:{{ l.company }}</p>
+                    <div class="button-for-teach" style="margin-top: 10px;">
+                        <a class="a text-header-h5" href="{% url "feedback:company" l.company.id %}" method="get">Перейти к карточке компании</a>
+                    </div>
+                    <div class="button-for-teach-red" style="margin-top: 10px;">
+                        <a class="a text-header-h5" href="{% url "feedback:feedbackdeletecompany" l.id %}" method="get">Удалить сообщение</a>
+                    </div>
+                </div>
+        </div>
+        {% endfor %}
+{% endif %}
+{% endblock content %}

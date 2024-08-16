@@ -1,18 +1,97 @@
 {% extends "base.html" %}
 {% load static %}
-
-{% block css %}
-    <link rel="stylesheet" href="{% static "deps/css/my_footer_css.css" %}">
-{% endblock  %}
-
 {% block content %}
-<h1 class="mt-5 pt-5"><strong>{{ content }}</strong></h1>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript">
+    </script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+        function init(){
+            var myMap = new ymaps.Map("map", {
+                center: [52.428575064244455,21.92537669140625], 
+                zoom: 2,
+                controls: ['fullscreenControl', 'typeSelector']
+
+            });
+            
+            {% for company in companies %}
+
+            var myPlacemark1 = new ymaps.Placemark([{{ company.coords }}], {
+                balloonContentHeader: '{{ company.name }}',
+                balloonContentFooter: '{{ company.address }}'
+            },{
+                preset: 'islands#redDotIcon',
+                {% comment %} iconLayout: 'default#image',
+	            iconImageHref: "{% static 'deps/images/logo3.png' %}",
+	            iconImageSize: [25, 35],
+	            iconImageOffset: [-12, -35], {% endcomment %}
+            });
+
+            myMap.geoObjects.add(myPlacemark1);
+            var geometry = [[59.930007,30.268504], [{{ company.coords }}]],
+			properties = {
+				hintContent: "Ломаная линия"
+			},
+			options = {
+				draggable: true,
+				strokeColor: '#ff0000',
+				strokeWidth: 1
+ 
+			},
+			polyline = new ymaps.Polyline(geometry, properties, options);
+ 
+			myMap.geoObjects.add(polyline);
+            {% endfor %}
+            var myPlacemark2 = new ymaps.Placemark([59.930007,30.268504], {
+                balloonContentHeader: 'Санкт-Петербургский Горный Университет',
+                balloonContentFooter: 'Санкт-Петербург, 21-я линия Васильевского острова, 2-4/45',
+            },{
+                iconLayout: 'default#image',
+	            iconImageHref: "{% static 'deps/images/logo2.png' %}",
+	            iconImageSize: [50, 50],
+	            iconImageOffset: [-25, -45],
+            });
+            myMap.geoObjects.add(myPlacemark2);
+        }
+    </script>
+
+<body>
+    <div class="content">
+        {% if not user.is_authenticated %}
+            <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+        {% endif %}
+        <div class="main_page_block">
+            <img src="{% static 'deps/images/vruchenie_diploma3.jpg' %}" class="main_page_img" alt="graduates_photo"/>
+            <h4 class="text-content-h4 right">Специалисты горного дела востребованы в российских и зарубежных компаниях. Высшее образование дает возможность стартовать с хороших должностей. Выпускники могут работать мастерами участков и инженерами. <br><br> Знатоки горной промышленности нужны в компаниях, занимающихся разработкой газовых и нефтяных месторождений, горнодобывающих комбинатах по всему миру.</h4>
+        </div>
+        {% if user.is_authenticated %}
+            <div class="main_page_block" style="justify-content: center;">
+                <h3 class="text-content-h3">Выпускники Горного Университета - это професионалы своего дела и востребованные по всему миру специалисты.</h3>
+            </div>
+            <div class="main_page_block" style="justify-content: center; margin-bottom: 0px;">
+                <p class="text-p">Перемещайте карту, чтобы посмотреть меcта, в которых сейчас работают выпускники Горного университета*</p>
+            </div>
+            <div class="imageWrapper">
+                <div id="map" class="map"></div>
+            </div>
+        {% endif %}
+        <div class="main_page_block">
+            <h4 class="text-content-h4 left">Партнерами Горного университета являются крупнейшие российские компании, активно участвующие в практической подготовке обучающихся и постоянно пополняющие свой кадровый состав выпускниками Университета.</h4>
+            <img src="{% static 'deps/images/vruchenie_diploma2.jpg' %}" class="main_page_img" alt="graduates_photo"/>
+        </div>
+    </div>
+    
+</body>
+
+
 {% endblock content %}
 
 {% block footer %}
-    <footer class="py-4 bg-dark">
+    <footer class="footer">
         <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Blagopoluchnaya Elizaveta IAS-20 2024</p>
+            <div class="footer__title">
+                <h4 class="h4 text-footer">Copyright &copy; Blagopoluchnaya Elizaveta IAS-20 2024</h4>
+            </div>
         </div>
     </footer>
-    {% endblock footer %}
+{% endblock footer %}

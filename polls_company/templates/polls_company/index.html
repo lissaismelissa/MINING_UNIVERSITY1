@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_company %}
+<div class="content_users">
+    <div style="text-align: center;">
+    <a class="text-p" style="color: var(--green-color);">Анкета работодателя для опроса с целью получения информации <br> об удовлетворенности качеством образования выпускников</a>
+    </div>
+    <form action="{% url 'polls_company:vote' %}" method="post">
+        {% csrf_token %}
+        {% for question in questions_list %}
+            {% if not question.id in check_list %}
+            <div class="form-polls">
+                <p>{{ question.id }}. {{ question.question_text }}</p>
+                {% for choice in question.choice_company_set.all %}
+                <div class="form-check">
+                    <input type="radio" name="choice{{ question.id }}" class="form-check-input"  required id="id_choice"
+                        value="{{ choice.id }}">
+                    <label for="id_choice">{{ choice.choice_text }}</label>
+                </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% if que_list == check_list %}
+            <div style="text-align: center; text-decoration: underline; color: green;">
+                <a class="text-p" href="{% url 'main:index' %}">Вы ответили на все вопросы в анкете!</a>
+            </div>
+        {% else %}
+            <div style="margin: 12px; text-align: center;">
+                <input type="submit" value="Отправить анкету" class="button">
+            </div>
+        {% endif %}
+    </form>
+{% else %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock %}

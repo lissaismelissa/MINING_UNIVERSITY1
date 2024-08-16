@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_teacher %}
+{% for question in questions_list %}
+<div class="content_users">
+    <div class="form-polls">
+    <p class="text-h4">{{ question.question_text }}</p>
+        <ul class="text-p">
+            {% for choice in question.choice_set.all %}
+            <li>
+                {{ choice.choice_text }}
+                <span class="text-h5" style="float: right; padding-right: 20px;">{{ choice.choice_percent }}% ({{ choice.votes }})</span>
+            </li>
+            {% endfor %}
+        </ul>
+
+
+
+        <div style="display: flex; justify-content: center; margin-top: 20px;">
+        <form action="{% url 'polls:warning_delete_question' question.id %}">
+            <div style="margin: 12px; text-align: center;">
+                <input type="submit" value="Удалить" class="button_red">
+            </div>
+        </form>
+        <form action="{% url 'polls:change_question' question.id %}">
+        <div style="margin: 12px; text-align: center;">
+            <input type="submit" value="Редактировать" class="button">
+        </div>
+        </form>
+        </div>
+    </div>
+</div> 
+{% endfor %}
+{% else %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock %}

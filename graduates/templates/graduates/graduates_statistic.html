@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+
+ 
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_teacher %}
+<div class="content_users" style="display: flex; justify-content: center;">
+    <div style="width: 250px;">
+        <!-- Форма фильтров -->
+            <div class="form-filter">
+                <p class="form-label">Фильтры:<c/p>
+                <form action="{% url "graduates:graduates_statistic" %}" method="get">
+                    <p class="form-label">Факультет:</p>
+                    <div>
+                        <select class="form-control-filter" name="faculty_filter">
+                            <option value="default">Выберете факультет</option>
+                            {% for faculty in faculties %}
+                            <option value="{{ faculty.name }}"
+                            {% if request.GET.faculty_filter ==  faculty.name %} selected {%endif%}>{{ faculty.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p class="form-label">Направление подготовки:</p>
+                    <div>
+                        <select class="form-control-filter" name="direction_filter" >
+                            <option value="default">Выберете направление подготовки</option>
+                            {% for direction in directions %}
+                            <option value="{{ direction.name }}"
+                            {% if request.GET.direction_filter ==  direction.name %} selected {%endif%}> {{ direction.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p class="form-label">Группа:</p>
+                    <div>
+                        <select class="form-control-filter" name="group_filter">
+                            <option value="default">Выберете группу</option>
+                            {% for group in groups %}
+                            <option value="{{ group.name }}"
+                            {% if request.GET.group_filter ==  group.name %} selected {%endif%}> {{ group.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p class="form-label">Квалификация:</p>
+                    <div>
+                        <select class="form-control-filter" name="qualification_filter">
+                            <option value="default">Выберете квалификацию</option>
+                            {% for qualification in qualifications %}
+                            <option value="{{ qualification.name }}"
+                            {% if request.GET.qualification_filter ==  qualification.name %} selected {%endif%}> {{ qualification.name }} </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p class="form-label">Год выпуска:</p>
+                    <div>
+                        <input type="text" class="form-control" style="width: 250px;" name="year_filter"
+                        placeholder="Введите год выпуска"
+                        value="">
+                    </div>
+                    <div style="margin-top: 10px; text-align: center;">
+                    <button type="submit" class="button" style="width: 230px;">Применить</button>
+                    </div>
+                </form>
+    
+                <form action="{% url "graduates:graduates_statistic" %}" method="get">
+                    <div>
+                        <select hidden class="form-control-filter" name="faculty_filter">
+                            <option value="default">Выберете факультет</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select hidden class="form-control-filter" name="direction_filter">
+                            <option value="default">Выберете направление подготовки</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select hidden class="form-control-filter" name="group_filter">
+                            <option value="default">Выберете группу</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select hidden class="form-control-filter" name="qualification_filter">
+                            <option value="default">Выберете квалификацию</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select hidden class="form-control-filter" name="year_filter">
+                            <option value="default">Введите год выпуска</option>
+                        </select>
+                    </div>
+                    <div style="margin-top: 10px; text-align: center;">
+                    <button type="submit" class="button" style="width: 230px;">Сбросить фильтр</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div style="margin-left: 60px;">
+        <div class="form" style="margin-bottom: 20px;">
+            <div style="text-align: center;">
+                <a class="text-content-h4" style="color: var(--green-color);">Статистика по трудоустройству</a>
+            </div> 
+                <div>
+                    <p><label>Всего выпускников: {{ graduates_count }}</label></p>
+                    {% for status in statuses %}
+                        <p><label>{{ status.name }}: {{ status.count }} ({{ status.percent }}%)</label></p>
+                    {% endfor %}
+                </div>
+        </div>
+        <div class="form" style="margin-bottom: 20px;">
+            <div style="text-align: center;">
+                <a class="text-content-h4" style="color: var(--green-color);">Статистика по месту трудоустройства</a>
+            </div> 
+                <div>
+                    <p><label>Количество выпускников, работающих в России: {{ count_russia }}</label></p>
+                    <p><label>Количество выпускников, работающих за рубежом: {{ count_abroad }}</label></p>
+                    <p><label>Количество выпускников, работающих в регионе выпуска: {{ count_spb }}</label></p>
+                </div>
+        </div>
+    <div class="form">
+        <div style="text-align: center;">
+            <a class="text-content-h4" style="color: var(--green-color);">Статистика по баллу диплома</a>
+        </div> 
+            <div>
+                <p><label>Средний балл диплома: {{ average_marks_all.average_score__avg|floatformat:2 }}</label></p>
+            </div>
+    </div>
+</div>
+ 
+</div>
+{% else %}
+<h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock %}

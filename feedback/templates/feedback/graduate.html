@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="form" style="width: 600px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a class="text-content-h4" style="color: var(--green-color);">Профиль выпускника</a>
+    </div>
+        <form action="{% url "feedback:change_graduate" graduate.slug %}" method="post" enctype="multipart/form-data" style="text-align: left; width: 400px;">
+            {% csrf_token %}            
+                <div>
+                    <div>
+                        <label for="id_first_name" class="form-label" >Имя*</label>
+                        <input type="first_name" class="form-control" id="id_first_name"
+                            name="first_name"
+                            placeholder="Введите имя выпускника"
+                            value="{{ graduate.first_name }}"
+                            required>
+                    </div>
+                    <div>
+                        <label for="id_last_name" class="form-label">Фамилия*</label>
+                        <input type="text" class="form-control" id="id_last_name"
+                            name="last_name"
+                            placeholder="Введите фамилию выпускника"
+                            value="{{ graduate.last_name }}" 
+                            required>
+                    </div>
+                    <div>
+                        <label for="id_middle_name" class="form-label">Отчество*</label>
+                        <input type="text" class="form-control" id="id_middle_name"
+                            name="middle_name"
+                            placeholder="Введите отчество выпускника"
+                            value="{{ graduate.middle_name|default_if_none:"" }}">
+                    </div>
+                     <div>
+                        <label for="id_faculty" class="form-label">Факультет*</label>
+                        <select name="faculty" class="form-control" required id="id_faculty">
+                            <option value="{{ graduate.faculty.id }}" selected>{{ graduate.faculty }}</option>
+                        {% for faculty in faculties %}
+                        {% if not graduate.faculty == faculty.name %}
+                        <option value="{{ faculty.id }}">{{ faculty.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_direction" class="form-label">Направление поготовки*</label>
+                        <select name="direction" class="form-control" required id="id_direction">
+                            <option value="{{ graduate.direction.id }}" selected>{{ graduate.direction }}</option>
+                        {% for direction in directions %}
+                        {% if not graduate.direction == direction.name %}
+                        <option value="{{ direction.id }}">{{ direction.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_profile" class="form-label">Профиль*</label>
+                        <select name="profile" class="form-control" required id="id_profile">
+                            <option value="{{ graduate.profile.id }}" selected>{{ graduate.profile }}</option>
+                        {% for profile in profiles %}
+                        {% if not graduate.profile == profile.name %}
+                        <option value="{{ profile.id }}">{{ profile.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_qualification" class="form-label">Квалификация*</label>
+                        <select name="qualification" class="form-control" required id="id_qualification">
+                            <option value="{{ graduate.qualification.id }}" selected>{{ graduate.qualification }}</option>
+                        {% for qualification in qualifications %}
+                        {% if not graduate.qualification == qualification.name %}
+                        <option value="{{ qualification.id }}">{{ qualification.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_edication_form" class="form-label">Форма обучения*</label>
+                        <select name="edication_form" class="form-control" required id="id_edication_form">
+                            <option value="{{ graduate.edication_form.id }}" selected>{{ graduate.edication_form }}</option>
+                        {% for edication_form in edication_forms %}
+                        {% if not graduate.edication_form == edication_form.name %}
+                        <option value="{{ edication_form.id }}">{{ edication_form.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="id_group" class="form-label">Группа*</label>
+                        <select name="group" class="form-control" required id="id_group">
+                            <option value="{{ graduate.group.id }}" selected>{{ graduate.group }}</option>
+                        {% for group in groups %}
+                        {% if not graduate.group == group.name %}
+                        <option value="{{ group.id }}">{{ group.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_department" class="form-label">Кафедра*</label>
+                        <select name="department" class="form-control" required id="id_department">
+                            <option value="{{ graduate.department.id }}" selected>{{ graduate.department }}</option>
+                        {% for department in departments %}
+                        {% if not graduate.department == department.name %}
+                        <option value="{{ department.id }}">{{ department.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="id_average_score" class="form-label">Средний балл диплома*</label>
+                        <input type="text" class="form-control" id="id_average_score"
+                            value="{{ graduate.average_score }}"
+                            name = "average_score"
+                            placeholder="Введите средний балл диплома"
+                            required>
+                    </div>
+                    <div>
+                        <label class="form-label">Год выпуска*</label>
+                        <input type="text" class="form-control" id="id_graduation_year"
+                            name="graduation_year"
+                            placeholder="Введите год выпуска"
+                            value="{{ graduate.graduation_year }}"
+                            required>
+                    </div> 
+                </div>
+
+            <div style="margin-top: 20px; text-align: center; width: 462px;">
+                <button type="submit" class="button" style="width: 135px;">Сохранить</button>
+            </div> 
+        </form>
+        <form action="{% url 'feedback:warning_delete_graduate' graduate.slug %}" method="get">
+            <div style="margin: 12px; text-align: center;">
+                <input type="submit" value="Удалить выпускника" class="button_red">
+            </div>
+        </form>
+</div>
+{% endblock content %}
+
+
+
+                                            
+                                            

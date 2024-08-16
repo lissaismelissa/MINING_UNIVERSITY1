@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+ 
+{% block content %}
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% elif user.is_teacher %}
+<div class="content_users">
+    <div class="form">
+        <div style="text-align: center;">
+            <a class="text-content-h4" style="color: var(--green-color);">Редактирование вопроса</a>
+        </div> 
+            <form action="{% url 'polls_company:save_change_question' %}" method="post">
+            {% csrf_token %}
+            <div >
+                <p><label for="id_question">Изменить текст вопроса:</label></p>
+                <textarea hidden name="q_id" required>{{question.id}}</textarea>
+                <p><textarea class="form-control" style="height: 200px;" name="question" cols="50" rows="3" required id="id_question">{{ question.question_text }}</textarea></p>
+                <p><label for="id_choice">Изменить варианты ответа:</label></p>
+                {% for choice in choices %}
+                <textarea hidden name="ch_id{{choice.id}}" required>{{choice.id}}</textarea>
+                <p><textarea class="form-control" name="choice{{choice.id}}" cols="50" rows="1" required id="id_choice">{{ choice.choice_text }}</textarea></p>
+                {% endfor %}
+            </div>
+            <div style="margin: 12px; text-align: center;">
+                <input type="submit" value="Изменить" class="button">
+            </div>
+            </form>
+        </div>
+    </div>
+ 
+</div>
+{% else %}
+<h3 class="text-content-h3" style="text-align: center; color: green;">Эта функция для вас не доступна.</h3>
+{% endif %}
+{% endblock %}

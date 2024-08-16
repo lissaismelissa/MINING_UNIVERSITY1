@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="content_users" style="display: flex; justify-content: right;">
+<div class="form" style="width: 880px;">
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a class="text-content-h4" style="color: var(--green-color);">Профиль компании</a>
+    </div>
+        <form action="{% url "feedback:change_company" company.id %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile">
+                <div style="width: 250px; height: 300px; margin: 10px;">
+                    {% if company.image %}
+                    <img src="{{ company.image.url }}"
+                        alt="Аватар компании" class="user-img" style="width: 250px;">
+                    {% else %}
+                    <img src="{% static "deps/images/Not found image.png" %}"
+                        alt="Аватар компании" class="user-img" style="width: 250px;">
+                    {% endif %}
+                    <div>
+                        <label class="input-file">
+                            <input type="file" id="id_image"
+                                name="image"
+                                accept="image/*">
+                                {% if form.image.errors %}
+                                    <div class="alert alert-danger alert-dismissible fade show">{{ form.image.errors }}</div>
+                                {% endif %}
+                        </label>
+                    </div>
+                </div>
+            
+                <div>
+                    <div>
+                        <label for="id_first_name" class="form-label">Название компании*</label>
+                        <input type="text" class="form-control" id="id_name"
+                            name="name"
+                            placeholder="Введите название компании"
+                            value="{{ company.name }}"
+                            required>
+                    </div>
+                    <div>
+                        <label for="id_address" class="form-label">Адрес компании*</label>
+                        <input type="text" class="form-control" id="id_address"
+                            name="address"
+                            placeholder="Введите адрес компании"
+                            value="{{ company.address }}"
+                            required>
+                    </div>
+                    <div>
+                        <label for="id_coords" class="form-label">Координаты компании*</label>
+                        <input type="text" class="form-control" id="id_name"
+                            name="coords"
+                            placeholder="Введите координаты компании"
+                            value="{{ company.coords }}"
+                            required>
+                    </div>
+                    <div>
+                        <label for="id_description" class="form-label">Описание компании*</label>
+                        <textarea type="text" class="form-control" id="id_description" style="height: 200px;"
+                            name="description"
+                            placeholder="Введите описание компании" 
+                            >{{ company.description|default_if_none:"" }}</textarea>
+                    </div>
+                    <div>
+                        <input name="is_russia" type="radio" value="True" {% if company.is_russia == True %} checked {% endif %}>
+                        <label class="form-label">
+                            Российская компания
+                        </label>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <input name="is_russia" type="radio" value="False" {% if company.is_russia == False %} checked {% endif %}>
+                        <label class="form-label">
+                            Зарубежная компания
+                        </label>
+                    </div>    
+                </div>
+            </div>
+            <div style="margin: 22px; text-align: center;">
+                <button type="submit" class="button" style="width: 100px;">Сохранить</button>
+            </div> 
+    </form>
+    <form action="{% url 'feedback:warning_delete_company' company.id %}" method="get">
+        <div style="margin: 12px; text-align: center;">
+            <input type="submit" value="Удалить компанию" class="button_red">
+        </div>
+    </form>
+</div>
+</div>
+{% endblock content %}

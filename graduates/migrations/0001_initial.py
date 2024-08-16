@@ -110,7 +110,6 @@ class Migration(migrations.Migration):
                 ('image', models.ImageField(blank=True, null=True, upload_to='graduate_images', verbose_name='Изображение')),
                 ('graduation_year', models.CharField(max_length=150, verbose_name='Год выпуска')),
                 ('average_score', models.FloatField(verbose_name='Средний балл диплома')),
-                ('current_work_or_study_place', models.TextField(blank=True, null=True, verbose_name='Текущее место работы/учебы')),
                 ('department', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='graduates.departments', verbose_name='Кафедра')),
                 ('direction', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='graduates.directions', verbose_name='Направление подготовки')),
                 ('edication_form', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='graduates.educationforms', verbose_name='Форма обучения')),

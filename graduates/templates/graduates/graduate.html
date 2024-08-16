@@ -2,42 +2,128 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card mb-4 custom-shadow">
-        <div class="row">
-            <!-- Миниатюры -->
-            <div class="col-md-4">
-                <img src="{{ graduate.image.url }}"
-                    class="img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal1">
-            </div>
-            <div class="col-md-4 ">
-            </div>
-            <!-- Увеличить изображение в модальном окне -->
-            <div class="modal fade" id="imageModal1" tabindex="-1"
-                aria-labelledby="imageModal1Label" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="imageModal1Label">{{ graduate.name }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Закрыть"></button>
-                        </div>
-                        <div class="modal-body">
-                            <img src="{{ graduate.image.url }}"
-                                class="img-fluid" alt="Изображение 1">
+{% if not user.is_authenticated %}
+    <h3 class="text-content-h3" style="text-align: center; color: green;">Функция сервиса доступны только авторизованным пользователям. Пожалуйста, авторизуйтесь в системе.</h3>
+{% else %}
+<div class="form" style="width: 894px;">
+    <div class="profile">
+        <div style="width: 250px; height: auto; margin-right: 10px;">
+            {% if graduate.image %}
+            <img src="{{ graduate.image.url }}"
+                alt="Аватар пользователя" class="user-img" style="width: 250px;">
+            {% else %}
+            <img src="{% static "deps/images/Not found image.png" %}"
+                alt="Аватар пользователя" class="user-img" style="width: 250px;">
+            {% endif %}
+        </div>
+
+        <div>
+            <h4 class="text-content-h4-green" style="margin-top: 5px; margin-bottom: 5px;">{{ graduate.last_name }} {{ graduate.first_name }} {{ graduate.middle_name|default_if_none:"" }}</h4>
+            <p class="text-p">Статус: {{ graduate.status_of_working }}</p>
+            <p class="text-p">Факультет: {{ graduate.faculty }}</p>
+            <p class="text-p">Направление подготовки: {{ graduate.direction }}</p>
+            <a class="text-p">Профиль: {{ graduate.profile }}</a>
+            <p class="text-p">Квалификация: {{ graduate.qualification }}</p>
+            <p class="text-p">Форма обучения: {{ graduate.edication_form }}</p>
+            <p class="text-p">Группа: {{ graduate.group }}</p>
+            <p class="text-p">Кафедра: {{ graduate.department }}</p>
+            <p class="text-p">Балл диплома: {{ graduate.average_score }}</p>
+            <p class="text-p">Год выпуска: {{ graduate.graduation_year }}</p> 
+        </div>
+    </div>
+        {% if graduate.skills %}
+            <p class="text-p">Навыки: {{ graduate.skills }}</p>
+        {% endif %}
+        {% if graduate.company %}
+            <p class="text-p">Место работы: {{ graduate.company }}</p>
+        {% endif %}
+        {% if graduate.post %}
+            <p class="text-p">Должность: {{ graduate.post }}</p>
+        {% endif %}
+        {% if graduate.achievements %}
+            <p class="text-p" style="margin-bottom: 20px;">Карьерные достижения: {{ graduate.achievements }}</p>
+        {% endif %}
+        <div>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script src="https://api-maps.yandex.ru/2.1/?apikey=735fbe75-736b-401c-8e10-97dd58da45cf&lang=ru_RU" type="text/javascript">
+        </script>
+        <script type="text/javascript">
+            ymaps.ready(init);
+            var center = [{{ coords }}]
+            function init(){
+                var myMap = new ymaps.Map("map", {
+                    center: center, 
+                    zoom: 10,
+                });
+                var myPlacemark = new ymaps.Placemark([{{ coords }}],  {
+                    balloonContentHeader: '{{ company.name }}',
+                    balloonContentFooter: '{{ company.adress }}',
+                });
+                
+                myMap.geoObjects.add(myPlacemark);
+                myPlacemark.balloon.open();
+            }
+        </script>
+        {% if graduate.company %}
+        <div id="map" style="width: auto; height: 400px"></div>
+        {% endif %}
+        </div>
+
+        <div>
+            {% if is_comment == 0 %}
+            <h4 class="text-p" style="margin-top: 10px; margin-bottom: 10px;">На этого выпускника пока нет отзывов</h4>
+            {% else %}
+            <h4 class="text-p" style="margin-top: 10px; margin-bottom: 10px">Отзывы о выпускнике от работодателей:</h4>
+            {% for comment in comments %}
+            
+                {% if comment.username_graduate.username == graduate.username %}
+                <div class="form-comment">
+                    <div class="profile">
+                    {% if comment.username_author.image %}
+                        <img src="{{ comment.username_author.image.url }}"
+                        alt="Аватар пользователя" class="img-circle"
+                        style="max-width: 100px;">
+                    {% else %}
+                        <img src="{% static "deps/images/Not found image.jpg" %}"
+                        alt="Аватар пользователя" class="img-circle"
+                        style="max-width: 100px;">
+                    {% endif %}
+                        <div style="margin-left: 20px;">
+                        <p class="text-p" style="margin-top: 0;">{{ comment.username_author.first_name }} {{ comment.username_author.last_name }}, {{ comment.username_author.company.name }} {{comment.create_date}}:</p>
+                        <p class="text-p">{{ comment.text }} </p>
                         </div>
                     </div>
                 </div>
+                {% endif %}
+                {% comment %} {% if user.is_teacher %}
+                    <div class="button-for-teach" style="margin-top: 10px; width: 320px;">
+                        <a class="a text-header-h5" href="{% url "feedback:graduate" graduate.id %}">Редактировать профиль компании</a>
+                    </div>
+                    {% endif %} {% endcomment %}
+            {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if user.is_company or is_staf %}
+        <form action="{% url "graduates_list:save_comment" graduate.slug%}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <h4 class="text-p" style="margin-bottom: 20px;">Оставить отзыв:</h4>
+            <div>
+                <select hidden name="username_graduate" id="id_username_graduate">
+                    <option value="{{ graduate.id }}" selected>{{ graduate.id }}</option>
+                  </select>
+                    <select hidden name="username_author" id="id_username_author">
+                  <option value="{{ user.id }}" selected>{{ user.id }}</option>
+                </select>
+                <textarea name="textarea" autocomplete='off' placeholder="Введите текст отзыва..." class="form-control" style="width:750px; height: 100px;" id="id_text"></textarea>
             </div>
-        </div>
-        <!-- Описание выпускника -->
-        <div class="card-body">
-            <h5 class="card-title">{{ graduate.name }}</h5>
-            <p class="card-text"><strong>Место работы: </strong> {{graduate.current_work_or_study_place }} </p>
-            <p class="card-text"><strong>Направление подготовки: </strong> {{graduate.profile }}</p>
-            <p class="card-text"><strong> Средний балл диплома: </strong> {{graduate.average_score }}</p>
-        </div>
+            <div style="margin: 22px; text-align: center;">
+                <button type="submit" class="button" style="width: 100px;">Отправить</button>
+            </div>
+        </form>
+        {% endif %}
     </div>
 </div>
+{% endif %}
 {% endblock content %}
 

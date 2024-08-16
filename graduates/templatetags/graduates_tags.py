@@ -1,7 +1,7 @@
 from django import template
 from django.utils.http import urlencode
 
-from graduates.models import Graduates
+from users.models import UserGraduate
 
 
 register = template.Library()
@@ -9,7 +9,7 @@ register = template.Library()
 
 @register.simple_tag()
 def tag_graduates():
-    return Graduates.objects.all()
+    return UserGraduate.objects.all()
 
 @register.simple_tag(takes_context=True)
 def change_params(context, **kwargs):

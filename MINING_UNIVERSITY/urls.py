@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 import debug_toolbar
 from django.conf.urls.static import static
+from contact_form.views import ContactCreate, success
 
 from MINING_UNIVERSITY import settings
 
@@ -26,6 +27,12 @@ urlpatterns = [
     path('', include('main.urls', namespace = 'main')),
     path('graduates_list/', include('graduates.urls', namespace = 'graduates_list')),
     path('user/', include('users.urls', namespace = 'user')),
+    path('poll/', include('polls.urls', namespace = 'poll')),
+    path('poll_company/', include('polls_company.urls', namespace = 'poll_company')),
+    # path('contact_form/', include('contact_form.urls', namespace = 'contact_form')),
+    path('contact_page/', ContactCreate.as_view(), name ='contact_page'),
+    path('feedback/', include('feedback.urls', namespace = 'feedback')),
+    path('success/', success, name='success_page')
 ]
 
 if settings.DEBUG:
